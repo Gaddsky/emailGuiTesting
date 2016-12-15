@@ -17,7 +17,6 @@ public class SendMsgOkPage {
     private By returnToInboxButtonLocator = By.linkText("Перейти во Входящие");
     /** Locator for the current account name */
     private By loggedAccountNameLocator = By.id("PH_user-email");
-    private By sentTitleLocator = By.className("message-sent__title");
 
     public SendMsgOkPage(WebDriver driver) {
         this.driver = driver;
@@ -61,6 +60,6 @@ public class SendMsgOkPage {
      * @return title of 'Message Sent' report
      */
     public String getSentTitle() {
-        return driver.findElement(sentTitleLocator).getText();
+        return driver.findElement(messageSentTitleLocator).getText();
     }
 }

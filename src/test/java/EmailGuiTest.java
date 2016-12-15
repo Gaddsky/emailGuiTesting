@@ -12,7 +12,6 @@ import pageObjects.SendMsgOkPage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -55,7 +54,6 @@ public class EmailGuiTest {
     @Before
     public void setUpWebDriver() {
         driver = driverB.create();
-        driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
     }
 
     /** Testing of the login to the web-site */
@@ -100,7 +98,7 @@ public class EmailGuiTest {
             inboxPage = composeNew.sendButtonClick().returnToInbox().waitForUnread();
         }
         int lettersCount = inboxPage.getLettersCount();
-        inboxPage.chooseFirstLetter().deleteFirstLetter().waitForDelete();
+        inboxPage.chooseFirstLetter().deleteSelectedLetter().waitForDelete();
 
         //TODO: it not will be work, if inbox will have more than one page
         Assert.assertEquals(lettersCount - 1, inboxPage.getLettersCount());

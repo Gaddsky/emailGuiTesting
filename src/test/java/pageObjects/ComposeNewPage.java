@@ -70,10 +70,4 @@ public class ComposeNewPage {
         driver.findElement(sendButtonLocator).click();
         return new SendMsgOkPage(driver);
     }
-
-    private void waitLoading() {
-        (new WebDriverWait(driver, 10))
-                .until(ExpectedConditions
-                        .presenceOfElementLocated(By.className("b-prefoot")));
-    }
 }

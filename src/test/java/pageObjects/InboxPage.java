@@ -19,7 +19,7 @@ public class InboxPage {
     /** Locator for the list of the letter's checkboxes */
     private By lettersListCheckboxLocator = By.className("js-item-checkbox");
     /** Locator for the list of the letter's headers */
-    private By LettersListLocator = By.className("b-datalist__item__subj");
+    private By letterHeadersListLocator = By.className("b-datalist__item__subj");
     /** Locator for the 'Remove' button */
     private By removeButtonLocator = By.cssSelector("div[data-name='remove'");
     /** Locator for the current account name */
@@ -62,7 +62,7 @@ public class InboxPage {
      * @return header of the first letter in inbox folder
      */
     public String getFirstLetterHeader() {
-        return driver.findElements(LettersListLocator).get(0).getText();
+        return driver.findElements(letterHeadersListLocator).get(0).getText();
     }
 
     /**
@@ -76,7 +76,7 @@ public class InboxPage {
      * Click on the 'Delete' button
      * @return this
      */
-    public InboxPage deleteFirstLetter() {
+    public InboxPage deleteSelectedLetter() {
         driver.findElement(removeButtonLocator).click();
         return this;
     }
