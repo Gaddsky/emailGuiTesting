@@ -15,14 +15,22 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
+/**
+ * This tests check Email-service: login, creating new letter, deleting first letter
+ */
 @RunWith(Parameterized.class)
 public class EmailGuiTest {
+    /** Instance of the using webdriver */
     private WebDriver driver;
+    /** Reference for the webdriver's constructor */
     private DriverBuilder driverB;
     private String domain = "mail.ru";
+    /** Username, used in email service. It mast be set as evironment variable 'MAILTESTLOGIN' in your system */
     private String username = System.getenv("MAILTESTLOGIN");
+    /** Password, used in email service. It mast be set as evironment variable 'MAILTESTPASSWORD' in your system */
     private String password = System.getenv("MAILTESTPASSWORD");
 
+    /** Functional interface for creation WebDriver's instances with reference to constructor */
     public interface DriverBuilder {
         WebDriver create();
     }
@@ -31,6 +39,10 @@ public class EmailGuiTest {
         this.driverB = driverB;
     }
 
+    /**
+     *
+     * @return List of the references for Webdriver's constructors, which will be used for testing
+     */
     @Parameterized.Parameters
     public static List<DriverBuilder> getTestDrivers() {
         return new ArrayList<>(Arrays.asList(
@@ -39,12 +51,14 @@ public class EmailGuiTest {
         ));
     }
 
+    /** This method is calling before each test. It creates needed WebDriver instance */
     @Before
     public void setUpWebDriver() {
         driver = driverB.create();
         driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
     }
 
+    /** Testing of the login to the web-site */
     @Test
     public void loginTest() {
         InboxPage inboxPage = loginProcedure();
@@ -55,6 +69,7 @@ public class EmailGuiTest {
         Assert.assertTrue(inboxPage.getActiveFolderName().contains("Входящие"));
     }
 
+    /** Testing the creation of the new message */
     @Test
     public void newLetter() {
         InboxPage inboxPage = loginProcedure();
@@ -72,6 +87,7 @@ public class EmailGuiTest {
     }
 
 
+    /** Testing the deletion of the first letter in inbox folder */
     @Test
     public void deleteFirstLetter() {
         InboxPage inboxPage = loginProcedure();
@@ -86,9 +102,11 @@ public class EmailGuiTest {
         int lettersCount = inboxPage.getLettersCount();
         inboxPage.chooseFirstLetter().deleteFirstLetter().waitForDelete();
 
+        //TODO: it not will be work, if inbox will have more than one page
         Assert.assertEquals(lettersCount - 1, inboxPage.getLettersCount());
     }
 
+    /** This method provides login procedure to the web-site */
     private InboxPage loginProcedure() {
         driver.get("https://" + domain);
         LoginPage loginPage = new LoginPage(driver);
@@ -98,6 +116,7 @@ public class EmailGuiTest {
                 .submitLogin();
     }
 
+    /** This method calling after each test, it quits used WebDriver instance*/
     @After
     public void quit() {
         driver.quit();
