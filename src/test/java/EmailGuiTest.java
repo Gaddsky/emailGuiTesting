@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 @RunWith(Parameterized.class)
 public class EmailGuiTest {
-    private static WebDriver driver;
+    private WebDriver driver;
     private DriverBuilder driverB;
     private String domain = "mail.ru";
     private String username = System.getenv("MAILTESTLOGIN");
