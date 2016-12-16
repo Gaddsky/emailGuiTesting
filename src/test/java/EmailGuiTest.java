@@ -12,6 +12,7 @@ import pageObjects.SendMsgOkPage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 
 /**
@@ -74,7 +75,7 @@ public class EmailGuiTest {
 
         ComposeNewPage composeNew = inboxPage.clickNewLetter();
         composeNew.typeTo(username +"@" + domain);
-        composeNew.typeSubject("Test subject");
+        composeNew.typeSubject(UUID.randomUUID().toString());
         composeNew.typeText("This is test text\nThat is");
         SendMsgOkPage sendMsgOkPage = composeNew.sendButtonClick();
 
@@ -93,15 +94,16 @@ public class EmailGuiTest {
         if (!inboxPage.isInboxLetters()) {
             ComposeNewPage composeNew = inboxPage.clickNewLetter();
             composeNew.typeTo(username +"@" + domain);
-            composeNew.typeSubject("For delete");
+            composeNew.typeSubject(UUID.randomUUID().toString());
             composeNew.typeText("This letter will be delete\nThat is");
             inboxPage = composeNew.sendButtonClick().returnToInbox().waitForUnread();
         }
-        int lettersCount = inboxPage.getLettersCount();
+        String letterToDeleteHeader = inboxPage.getFirstLetterHeader();
         inboxPage.chooseFirstLetter().deleteSelectedLetter().waitForDelete();
 
-        //TODO: it not will be work, if inbox will have more than one page
-        Assert.assertEquals(lettersCount - 1, inboxPage.getLettersCount());
+//        Assert.assertFalse(inboxPage.getAllLettersHeaders().contains(letterToDeleteHeader)); // another variant of assertion check
+        Assert.assertNotEquals(letterToDeleteHeader, inboxPage.getFirstLetterHeader());
+
     }
 
     /** This method provides login procedure to the web-site */

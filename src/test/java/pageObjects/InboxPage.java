@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -62,7 +63,18 @@ public class InboxPage {
      * @return header of the first letter in inbox folder
      */
     public String getFirstLetterHeader() {
-        return driver.findElements(letterHeadersListLocator).get(0).getText();
+        if (driver.findElements(letterHeadersListLocator).size() == 0 ){
+            return null;
+        }
+        else return driver.findElements(letterHeadersListLocator).get(0).getText();
+    }
+
+    public List <String> getAllLettersHeaders() {
+        List <String> allLettersHeaders = new ArrayList<>();
+        for (WebElement header : driver.findElements(letterHeadersListLocator)) {
+            allLettersHeaders.add(header.getText());
+        }
+        return allLettersHeaders;
     }
 
     /**
