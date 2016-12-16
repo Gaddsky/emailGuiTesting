@@ -20,5 +20,9 @@ hs_err_pid*
 .idea/
 build/
 
+*.iml
+*.ipr
+*.iws
+
 chromedriver
 geckodriver
