@@ -73,11 +73,12 @@ public class EmailGuiTest {
     public void newLetter() {
         InboxPage inboxPage = loginProcedure();
 
-        ComposeNewPage composeNew = inboxPage.clickNewLetter();
-        composeNew.typeTo(username +"@" + domain);
-        composeNew.typeSubject(UUID.randomUUID().toString());
-        composeNew.typeText("This is test text\nThat is");
-        SendMsgOkPage sendMsgOkPage = composeNew.sendButtonClick();
+        SendMsgOkPage sendMsgOkPage = composeNewLetterProcedure(
+                inboxPage,
+                username +"@" + domain,
+                UUID.randomUUID().toString(),
+                "This is test text\nThat is"
+        );
 
         Assert.assertTrue(sendMsgOkPage.getTitle().endsWith(" - Почта Mail.Ru"));
         Assert.assertTrue(sendMsgOkPage.getUrl().contains("e.mail.ru/sendmsgok?id="));
@@ -92,11 +93,12 @@ public class EmailGuiTest {
         InboxPage inboxPage = loginProcedure();
 
         if (!inboxPage.isInboxLetters()) {
-            ComposeNewPage composeNew = inboxPage.clickNewLetter();
-            composeNew.typeTo(username +"@" + domain);
-            composeNew.typeSubject(UUID.randomUUID().toString());
-            composeNew.typeText("This letter will be delete\nThat is");
-            inboxPage = composeNew.sendButtonClick().returnToInbox().waitForUnread();
+            inboxPage = composeNewLetterProcedure(
+                    inboxPage,
+                    username +"@" + domain,
+                    UUID.randomUUID().toString(),
+                    "This is test text\nThat is"
+            ).returnToInbox().waitForUnread();
         }
         String letterToDeleteHeader = inboxPage.getFirstLetterHeader();
         inboxPage.chooseFirstLetter().deleteSelectedLetter().waitForDelete();
@@ -114,6 +116,14 @@ public class EmailGuiTest {
                 .typePassword(password)
                 .uncheckRememberCheckbox()
                 .submitLogin();
+    }
+
+    private SendMsgOkPage composeNewLetterProcedure(InboxPage inbPage, String dest, String subj, String txt) {
+        ComposeNewPage compNew = inbPage.clickNewLetter();
+        compNew.typeTo(dest);
+        compNew.typeSubject(subj);
+        compNew.typeText(txt);
+        return compNew.sendButtonClick();
     }
 
     /** This method calling after each test, it quits used WebDriver instance*/
