@@ -63,7 +63,7 @@ public class EmailGuiTest {
         InboxPage inboxPage = loginProcedure();
 
         Assert.assertTrue(inboxPage.getTitle().endsWith("Почта Mail.Ru"));
-        Assert.assertTrue(inboxPage.getUrl().endsWith("e.mail.ru/messages/inbox/?back=1"));
+        Assert.assertTrue(inboxPage.getUrl().contains("e.mail.ru/messages/inbox/"));
         Assert.assertEquals(inboxPage.getLoggedAccountName(), username + "@" + domain);
         Assert.assertTrue(inboxPage.getActiveFolderName().contains("Входящие"));
     }
