@@ -6,8 +6,8 @@ Sample of testing email service functionality:
 
 Before run this tests, you must do the following:  
 Download webdrivers for browsers, use:  
-* [Chrome driver](http://chromedriver.storage.googleapis.com/index.html). [See details](https://github.com/SeleniumHQ/selenium/wiki/ChromeDriver)
-* [Firefox driver](https://github.com/mozilla/geckodriver/releases). [See details](https://github.com/mozilla/geckodriver)  
+* [Chrome driver](https://chromedriver.storage.googleapis.com/index.html?path=2.26/). [See details](https://github.com/SeleniumHQ/selenium/wiki/ChromeDriver)
+* [Firefox driver](https://github.com/mozilla/geckodriver/releases/tag/v0.11.1). [See details](https://github.com/mozilla/geckodriver)  
 
 and save them in PATH (simplest way - is to store them in emailGuiTesting folder)
 
